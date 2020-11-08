@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    background-color: rgb(132, 199, 243);
+}
+
+.grid-container {
+    display: grid;
+    height: 600px;
+    width: 600px;
+    background-color: rgb(156, 156, 156);
+    border: 1px solid rgb(156, 156, 156);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.toggle-grid {
+    gap: 1px;
+}
+
+.btn-on {
+    background-color: rgb(153, 221, 85);
+}
+
+.grid-item {
+    background-color: rgb(255, 255, 255);
+    user-select: none;
+}
