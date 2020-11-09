@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -30,4 +32,46 @@ body {
     user-select: none;
 }
 
+.slider-box {
+    position: relative;
+    width: 450px;
+}
+
+#range-value {
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    padding: 2px;
+    width: 40px;
+    background: #fff;
+    text-align: center;
+}
+
+#range-value::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    left: -5px;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+}
+
+input[type="range"] {
+    width: 400px;
+    height: 2px;
+    background: #111;
+    appearance: none;
+    outline: none;
+    border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #00bcd4;
+}
 
