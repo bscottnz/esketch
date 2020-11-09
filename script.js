@@ -4,17 +4,55 @@ let gridSize = 24;
 const container = document.querySelector('.grid-container');
 
 let bgColor = '#ffffff'
+container.style.backgroundColor = bgColor;
+
 //create new grid items to fill the grid
 function createGrid(grid_size) {
-    container.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
 
+    // having the grid with each item at 1fr would leave left over space at the end of the grid
+    //  when there were lots of items, doing it this way seemed to fill in that extra space.
+    // however the grid broke when there were 3 or less items, so the if statment fixes that
+    let gridWidth = (container.offsetWidth / gridSize);
+    container.style.gridTemplateColumns = `repeat(${gridSize-3}, ${gridWidth}px) 1fr 1fr 1fr`;
+    container.style.gridTemplateRows = `repeat(${gridSize-3}, ${gridWidth}px) 1fr 1fr 1fr`;
+    if (gridSize < 4) {
+        container.style.gridTemplateColumns = `repeat(${gridSize},1fr`;
+        container.style.gridTemplateRows = `repeat(${gridSize}, 1fr`;
+    }
+    
     for (let i = 0; i < gridSize ** 2; i++) {
         const square = document.createElement('div');
         square.classList.add('grid-item');
         square.setAttribute('draggable', 'false');
-        square.style.backgroundColor = bgColor;
+        square.style.backgroundColor = "transperent";
         container.appendChild(square);
+        
+        //to avoid double borders, top and left borders are applied to every cell,
+        //then the remaining borderless cells are determined and given a border.
+        // i originally used grid gap and had the container background
+        //color as the borders. However when i changed the background color by changing each
+        // cell individually, it got quite slow with large grids. I changed un-colored
+        // grid items to be transperent, so i could use the container background as the 
+        //background color. now when i change the background color i am only changing the 
+        // one container and it is much faster. 
+        //set border top and left to every grid item
+        square.classList.add('border-top-left');
     };
+    //add a right border the the right most items
+    const rightItems = document.querySelectorAll(`.grid-item:nth-child(${gridSize}n)`);
+    for (let i = 0; i < rightItems.length; i++) {
+        rightItems[i].setAttribute('data-right', 'true');
+        rightItems[i].classList.toggle('border-right');
+    }
+
+    // add a bottom border to the bottom most items
+    const gridItems = document.querySelectorAll(".grid-item");
+    const lastItems = Array.from(gridItems).slice(-`${gridSize}`);
+    for (let i = 0; i < lastItems.length; i++) {
+        lastItems[i].setAttribute('data-bottom', 'true');
+        lastItems[i].classList.toggle('border-bottom');
+    }
+
 
     
 }
@@ -23,12 +61,7 @@ createGrid(gridSize)
 
 const gridItems = document.querySelectorAll(".grid-item");
 
-// toggle grid lines
-const gridButton = document.querySelector('#grid-btn');
 
-gridButton.addEventListener('click', () => {
-     container.classList.toggle('toggle-grid');
-})
 
 // set default colour to black
 let ink = '#000000'; 
@@ -193,13 +226,16 @@ clearButton.addEventListener('click', clearGrid);
 function drawClick(e) {
     if (!grab) {
         if (eraser) {
-            e.target.style.backgroundColor = bgColor;
+            e.target.style.backgroundColor = "";
             //data-inked = true means the background color change wont affect these elements
             e.target.removeAttribute('data-inked')
         } else if (rainbow) {
             e.target.style.backgroundColor = randomColor();
             e.target.setAttribute('data-inked', 'true');
         } else if (shading) {
+            if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
+                e.target.style.backgroundColor = bgColor;
+            }
             e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,-15);
             e.target.setAttribute('data-inked', 'true');
         } else if (lighten) {
@@ -216,12 +252,15 @@ function drawClickHover(e) {
     if (e.buttons > 0) {
         if (!grab) {
             if (eraser) {
-                e.target.style.backgroundColor = bgColor;
+                e.target.style.backgroundColor = "";
                 e.target.removeAttribute('data-inked');
             } else if (rainbow) {
                 e.target.style.backgroundColor = randomColor();
                 e.target.setAttribute('data-inked', 'true');
             } else if (shading) {
+                if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
+                    e.target.style.backgroundColor = bgColor;
+                }
                 e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,-15);
                 e.target.setAttribute('data-inked', 'true');
             } else if (lighten) {
@@ -251,7 +290,12 @@ function listen() {
         gridItems[i].addEventListener('click', e => {
             if (grab) {
                 ink = e.target.style.backgroundColor;
-                colorPicker.value = RGBToHex(ink);
+                // if trying to grab the color of the background (transperent cell)
+                if (ink == "") {
+                    colorPicker.value = bgColor;
+                } else {
+                    colorPicker.value = RGBToHex(ink);
+                }
                 dropper.classList.remove('btn-on');
                 grab = false;   
             }
@@ -263,10 +307,28 @@ function listen() {
         for (let i = 0; i < gridItems.length; i++) {
             if (!gridItems[i].dataset.inked) {
                 bgColor = e.target.value;
-                gridItems[i].style.backgroundColor = bgColor;
+                container.style.backgroundColor = bgColor;
             }       
         } 
     });
+
+    // toggle grid lines
+    const gridButton = document.querySelector('#grid-btn');
+
+    gridButton.addEventListener('click', () => {
+        for (i = 0; i < gridItems.length; i++) {
+            //toggle top and left cell borders
+            gridItems[i].classList.toggle('border-top-left');
+            //toggle the remaining right borders
+            if (gridItems[i].dataset.right) {
+                gridItems[i].classList.toggle('border-right');
+            }
+            // toggle the remaining bottom borders
+            if (gridItems[i].dataset.bottom) {
+                gridItems[i].classList.toggle('border-bottom');
+            }
+        }
+    })
 }
 
 listen()

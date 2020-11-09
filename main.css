@@ -13,15 +13,15 @@ body {
     display: grid;
     height: 600px;
     width: 600px;
-    background-color: rgb(156, 156, 156);
+    /* background-color: rgb(156, 156, 156); */
     border: 1px solid rgb(156, 156, 156);
     margin-left: auto;
     margin-right: auto;
 }
 
-.toggle-grid {
+/* .toggle-grid {
     gap: 1px;
-}
+} */
 
 .btn-on {
     background-color: rgb(153, 221, 85);
@@ -30,6 +30,19 @@ body {
 .grid-item {
     /* background-color: rgb(255, 255, 255); */
     user-select: none;
+}
+
+.border-top-left {
+    border-top: 1px solid rgb(156, 156, 156);
+    border-left: 1px solid rgb(156, 156, 156);
+}
+
+.border-right {
+    border-right: 1px solid rgb(156, 156, 156);
+}
+
+.border-bottom {
+    border-bottom: 1px solid rgb(156, 156, 156);
 }
 
 .slider-box {
@@ -74,4 +87,6 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 50%;
     background: #00bcd4;
 }
+
+
 
