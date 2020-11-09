@@ -221,6 +221,10 @@ function clearGrid() {
 }
 clearButton.addEventListener('click', clearGrid);
 
+function shadeBG(rgba) {
+    
+}
+
 
 // draw on the grid when clicked
 function drawClick(e) {
@@ -239,6 +243,9 @@ function drawClick(e) {
             e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,-15);
             e.target.setAttribute('data-inked', 'true');
         } else if (lighten) {
+            if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
+                e.target.style.backgroundColor = bgColor;
+            }
             e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,+15);
             e.target.setAttribute('data-inked', 'true');
         } else {
@@ -247,7 +254,7 @@ function drawClick(e) {
         }
     };
 }
-// draw when hovering over the grid with the mouse held down
+// draw when hovering into a grid with the mouse held down
 function drawClickHover(e) {
     if (e.buttons > 0) {
         if (!grab) {
@@ -264,6 +271,9 @@ function drawClickHover(e) {
                 e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,-15);
                 e.target.setAttribute('data-inked', 'true');
             } else if (lighten) {
+                if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
+                    e.target.style.backgroundColor = bgColor;
+                }
                 e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,+15);
                 e.target.setAttribute('data-inked', 'true');
             } else {
