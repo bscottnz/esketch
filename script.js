@@ -216,6 +216,7 @@ function clearGrid() {
     for (let i = 0; i < gridItems.length; i++) {
         gridItems[i].style.backgroundColor = "";
         gridItems[i].removeAttribute('data-inked');
+        gridItems[i].removeAttribute('data-shade');
 
     }
 }
