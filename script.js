@@ -46,7 +46,7 @@ function createGrid(grid_size) {
     }
 
     // add a bottom border to the bottom most items
-    const gridItems = document.querySelectorAll(".grid-item");
+    let gridItems = document.querySelectorAll(".grid-item");
     const lastItems = Array.from(gridItems).slice(-`${gridSize}`);
     for (let i = 0; i < lastItems.length; i++) {
         lastItems[i].setAttribute('data-bottom', 'true');
@@ -59,7 +59,7 @@ function createGrid(grid_size) {
 
 createGrid(gridSize)
 
-const gridItems = document.querySelectorAll(".grid-item");
+gridItems = document.querySelectorAll(".grid-item");
 
 
 
@@ -212,7 +212,7 @@ function deleteGrid() {
 // clear grid
 const clearButton = document.querySelector('#clear-grid');
 function clearGrid() {
-    const gridItems = document.querySelectorAll(".grid-item");
+    gridItems = document.querySelectorAll(".grid-item");
     for (let i = 0; i < gridItems.length; i++) {
         gridItems[i].style.backgroundColor = "";
         gridItems[i].removeAttribute('data-inked');
@@ -222,14 +222,57 @@ function clearGrid() {
 }
 clearButton.addEventListener('click', clearGrid);
 
-function shadeBG(rgba) {
+
+// set fill to true when the color fill button is pressed 
+// if fill is true set it to false (clicking the button without filling)
+// when fill is true all other events on the grid will stop and listen for a grid area to fill
+const colorFillButton = document.querySelector('#color-fill');
+let fill = false;
+colorFillButton.addEventListener('click', () => {
+    if (fill) {
+        fill = false;
+    } else { 
+        fill = true;
+    }
     
+});
+// convert array into matrix representing the grid
+function toMatrix(arr, width) {
+    return arr.reduce(function (rows, key, index) { 
+      return (index % width == 0 ? rows.push([key]) 
+        : rows[rows.length-1].push(key)) && rows;
+    }, []);
 }
+
+function colorFill (e) {
+    if (fill) {
+        //get index of the clicked grid cell
+        let ogIndex = Array.from(e.target.parentElement.children).indexOf(e.target);
+        // console.log(ogIndex);
+
+        gridItems = document.querySelectorAll('.grid-item');
+        let gridItemsArray = Array.from(gridItems);
+        // console.log(gridItemsArray.length);
+
+        // create grid-like representation of grid items
+        gridItemsArray2D = toMatrix(gridItemsArray, gridSize);
+        console.log(gridItemsArray2D);
+
+
+        
+    
+        colorFillButton.classList.remove('btn-on');
+        fill = false;
+    }
+}
+
+
 
 
 // draw on the grid when clicked
 function drawClick(e) {
-    if (!grab) {
+    // when fill or grab is true do not do anything (a seperate listener is waiting for fill / grab input)
+    if (!grab && !fill) {
         if (eraser) {
             e.target.style.backgroundColor = "";
             //data-inked = true means the background color change wont affect these elements
@@ -286,7 +329,7 @@ function drawClick(e) {
 // draw when hovering into a grid with the mouse held down
 function drawClickHover(e) {
     if (e.buttons > 0) {
-        if (!grab) {
+        if (!grab && !fill) {
             if (eraser) {
                 e.target.style.backgroundColor = "";
                 //data-inked = true means the background color change wont affect these elements
@@ -345,7 +388,7 @@ function drawClickHover(e) {
 
 // listen for events
 function listen() {
-    const gridItems = document.querySelectorAll(".grid-item");
+    gridItems = document.querySelectorAll(".grid-item");
     for (let i = 0; i < gridItems.length; i++) {
         
         gridItems[i].addEventListener('mousedown', drawClick)
@@ -370,8 +413,13 @@ function listen() {
         });
     }
 
+    // listen for clicks on all grid items when fill is true (colour fill)
+    for (let i = 0; i < gridItems.length; i++) {
+        gridItems[i].addEventListener('click', colorFill)
+        }
+
     bgColorPicker.addEventListener("input", e => {
-        const gridItems = document.querySelectorAll(".grid-item");
+        gridItems = document.querySelectorAll(".grid-item");
         for (let i = 0; i < gridItems.length; i++) {
             if (!gridItems[i].dataset.inked) {
                 bgColor = e.target.value;
