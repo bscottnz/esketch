@@ -259,11 +259,22 @@ function drawClick(e) {
             e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,-15);
             // e.target.setAttribute('data-inked', 'true');
         } else if (lighten) {
+
+            if (!e.target.dataset.shade) {
+                e.target.setAttribute('data-shade', '-1');
+            } else {
+                // if the grid item has been lightened, decrement the data-shade value
+                // this keeps track of how many times the grid item has been shaded
+                let shadeAmount = parseInt(e.target.getAttribute('data-shade'));
+                shadeAmount--;
+                e.target.setAttribute('data-shade', `${shadeAmount}`);
+                
+            }
             if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
                 e.target.style.backgroundColor = bgColor;
             }
             e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,+15);
-            e.target.setAttribute('data-inked', 'true');
+            // e.target.setAttribute('data-inked', 'true');
         } else {
             e.target.style.backgroundColor = ink;
             e.target.setAttribute('data-inked', 'true');
@@ -305,11 +316,22 @@ function drawClickHover(e) {
                 e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,-15);
                 // e.target.setAttribute('data-inked', 'true');
             } else if (lighten) {
+
+                if (!e.target.dataset.shade) {
+                    e.target.setAttribute('data-shade', '-1');
+                } else {
+                    // if the grid item has been lightened, decrement the data-shade value
+                    // this keeps track of how many times the grid item has been shaded
+                    let shadeAmount = parseInt(e.target.getAttribute('data-shade'));
+                    shadeAmount--;
+                    e.target.setAttribute('data-shade', `${shadeAmount}`);
+                    
+                }
                 if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
                     e.target.style.backgroundColor = bgColor;
                 }
                 e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,+15);
-                e.target.setAttribute('data-inked', 'true');
+                // e.target.setAttribute('data-inked', 'true');
             } else {
                 e.target.style.backgroundColor = ink;
                 e.target.setAttribute('data-inked', 'true');
