@@ -214,7 +214,7 @@ const clearButton = document.querySelector('#clear-grid');
 function clearGrid() {
     const gridItems = document.querySelectorAll(".grid-item");
     for (let i = 0; i < gridItems.length; i++) {
-        gridItems[i].style.backgroundColor = bgColor;
+        gridItems[i].style.backgroundColor = "";
         gridItems[i].removeAttribute('data-inked');
 
     }
@@ -232,16 +232,32 @@ function drawClick(e) {
         if (eraser) {
             e.target.style.backgroundColor = "";
             //data-inked = true means the background color change wont affect these elements
-            e.target.removeAttribute('data-inked')
+            e.target.removeAttribute('data-inked');
+            e.target.removeAttribute('data-shade');
         } else if (rainbow) {
             e.target.style.backgroundColor = randomColor();
             e.target.setAttribute('data-inked', 'true');
+            e.target.removeAttribute('data-shade');
         } else if (shading) {
+            // first check to see if this grid item has been shadded. if it hasnt, set data-shade to 1
+            // this is nessesarry to transfer shading between bg color changes
+            if (!e.target.dataset.shade) {
+                e.target.setAttribute('data-shade', '1');
+            } else {
+                // if the grid item has been shadded, increment the data-shade value
+                // this keeps track of how many times the grid item has been shaded
+                let shadeAmount = parseInt(e.target.getAttribute('data-shade'));
+                shadeAmount++;
+                e.target.setAttribute('data-shade', `${shadeAmount}`);
+                
+            } // a transperent item cant be shadded. if item is transperent first set the cell color to bg color
             if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
                 e.target.style.backgroundColor = bgColor;
             }
+
+
             e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,-15);
-            e.target.setAttribute('data-inked', 'true');
+            // e.target.setAttribute('data-inked', 'true');
         } else if (lighten) {
             if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
                 e.target.style.backgroundColor = bgColor;
@@ -251,6 +267,7 @@ function drawClick(e) {
         } else {
             e.target.style.backgroundColor = ink;
             e.target.setAttribute('data-inked', 'true');
+            e.target.removeAttribute('data-shade');
         }
     };
 }
@@ -260,16 +277,33 @@ function drawClickHover(e) {
         if (!grab) {
             if (eraser) {
                 e.target.style.backgroundColor = "";
-                e.target.removeAttribute('data-inked');
+                //data-inked = true means the background color change wont affect these elements
+                e.target.removeAttribute('data-inked')
+                e.target.removeAttribute('data-shade');
             } else if (rainbow) {
                 e.target.style.backgroundColor = randomColor();
                 e.target.setAttribute('data-inked', 'true');
+                e.target.removeAttribute('data-shade');
             } else if (shading) {
+                // first check to see if this grid item has been shadded. if it hasnt, set data-shade to 1
+                // this is nessesarry to transfer shading between bg color changes
+                if (!e.target.dataset.shade) {
+                    e.target.setAttribute('data-shade', '1');
+                } else {
+                    // if the grid item has been shadded, increment the data-shade value
+                    // this keeps track of how many times the grid item has been shaded
+                    let shadeAmount = parseInt(e.target.getAttribute('data-shade'));
+                    shadeAmount++;
+                    e.target.setAttribute('data-shade', `${shadeAmount}`);
+                    
+                } // a transperent item cant be shadded. if item is transperent first set the cell color to bg color
                 if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
                     e.target.style.backgroundColor = bgColor;
                 }
+    
+    
                 e.target.style.backgroundColor = adjust(RGBToHex,e.target.style.backgroundColor,-15);
-                e.target.setAttribute('data-inked', 'true');
+                // e.target.setAttribute('data-inked', 'true');
             } else if (lighten) {
                 if (e.target.style.backgroundColor == "" || e.target.style.backgroundColor == "transperent") {
                     e.target.style.backgroundColor = bgColor;
@@ -279,6 +313,7 @@ function drawClickHover(e) {
             } else {
                 e.target.style.backgroundColor = ink;
                 e.target.setAttribute('data-inked', 'true');
+                e.target.removeAttribute('data-shade');
             }
         }
         
@@ -318,7 +353,25 @@ function listen() {
             if (!gridItems[i].dataset.inked) {
                 bgColor = e.target.value;
                 container.style.backgroundColor = bgColor;
-            }       
+                
+
+            } 
+            // carry over shading when the bg color changes
+            //set all shaded items to bg color, so that the shading ran be re-applyed to the new bg color
+
+            // dont change the color of shaded inked cells, only background cells that have been shaded
+            if (!gridItems[i].dataset.inked) {
+                if (gridItems[i].dataset.shade) {
+                    gridItems[i].style.backgroundColor = bgColor;
+                    // grab the value of data-shade (the amount of times the cell has been shaded)
+                    let shadeAmount = parseInt(gridItems[i].getAttribute('data-shade'));
+                    // multiply the default shading intensity by shadeAmount, then apply this ammount
+                    //of shading to the cell 
+                    let reshadeValue = shadeAmount * -15;
+                    gridItems[i].style.backgroundColor = adjust(RGBToHex,gridItems[i].style.backgroundColor,reshadeValue);
+    
+                 } 
+            }     
         } 
     });
 
