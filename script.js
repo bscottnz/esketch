@@ -1,6 +1,7 @@
 // number of rows / columns in grid
 let gridSize = 24;
 
+
 const container = document.querySelector('.grid-container');
 
 let bgColor = '#ffffff'
