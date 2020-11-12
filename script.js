@@ -296,7 +296,8 @@ function colorFill (e) {
         // console.log(ogIndex);
 
         // create a list of items to color
-        let toFill = [ogIndex]
+        let toFill = [ogIndex];
+        let addedToFill = 1;
 
         gridItems = document.querySelectorAll('.grid-item');
         let gridItemsArray = Array.from(gridItems);
@@ -314,9 +315,55 @@ function colorFill (e) {
 
         // console.log(getAdjacent2D(gridX, gridY));
 
-        console.log(getAdjacent1D(ogIndex, gridX, gridY));
+        // console.log(getAdjacent1D(ogIndex, gridX, gridY));
+
+        // toFill=[12, 13, 11, 17, 7, 2, 6, 8, 22, 16, 18, 10, 14];
+        while (addedToFill != 0) {
+            let toCheck = toFill.slice(-addedToFill);
+            // toCheck = [2, 6, 8, 22, 16, 18, 10, 14];
+            let addedItems = [];
+            // console.log(toCheck);
+            addedToFill = 0;
+            for (let j = 0; j < toCheck.length; j++) {
+                // console.log(toCheck[j]);
+                let toAdd = (getAdjacent1D(toCheck[j], gridX, gridY));
+                // console.log(toAdd);
+                for (let i = 0; i < toAdd.length; i++) {
+                    if (getAdjacent1D(toCheck[j][i], gridX, gridY)[i] != null) {
+                        if (!toFill.includes(toAdd[i][0])) {
+                            // for some reason it was adding items above the top line
+                            // and bellow the bottom line, i couldnt work it out so 
+                            // added this if. It would also add string numbers if i changed
+                            // the grid size with the slider 
+                            if (toAdd[i][0] >= 0 && toAdd[i][0] < gridSize**2 && typeof toAdd[i][0] == "number") {
+                                toFill.push(toAdd[i][0]);
+                                addedItems.push(toAdd[i][0]);
+                            }
+                            
+                        }
+                    }
+                }
+                    
+            }
+            addedToFill = addedItems.length;
+            // console.log(addedItems.length);
+            // console.log(addedItems);
 
 
+            
+
+        }
+        
+        
+
+        console.log(toFill);
+
+        // for (let i = 0; i < 4; i++) {
+        //     if (getAdjacent1D(toCheck[j][i], gridX, gridY)[i] != null) {
+        //         toFill.push(getAdjacent1D(toCheck[j][i], gridX, gridY)[i][0]);
+        //         // addedToFill++;
+        //     }
+        // }
 
 
         
