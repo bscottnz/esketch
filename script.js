@@ -1,5 +1,5 @@
 // number of rows / columns in grid
-let gridSize = 24;
+let gridSize = 5;
 
 const container = document.querySelector('.grid-container');
 
@@ -244,23 +244,83 @@ function toMatrix(arr, width) {
     }, []);
 }
 
+//helper funtion to grab adjacent cells of a 2d grid 
+//function getAdjacent2D(x, y) {
+    // let xAbove = [x - 1, y];
+
+    // let xBellow = [x + 1, y];
+
+    // let xLeft = [x, y - 1];
+    
+    // let xRight = [x, y + 1];
+
+    // return [xAbove, xBellow, xLeft, xRight]
+//}
+
+//helper function to grab adjacent cells of a 2d grid stored as a 1d array
+// only return cells that do not cross over the edge of the grid
+function getAdjacent1D (x, gridX, gridY) {
+    let xAbove = null;
+    let xBellow = null;
+    let xLeft = null;
+    let xRight = null;
+
+    // make sure x is not in the top row before returning the cell above
+    if (gridX != 0) {
+        xAbove = [x - gridSize];
+        
+    }
+    // make sure x is not in the bottom row before returning the cell bellow
+    if (gridX != gridSize - 1) {
+        xBellow = [x + gridSize];
+    }
+    // make sure x is not in the left column before returning the cell to its left
+    if (gridY != 0) {
+        xLeft = [x - 1];
+    }
+    // make sure x is not in the right column before returning the cell to its right
+    if (gridY != gridSize - 1) {
+        xRight = [x + 1];
+    }
+    
+
+    return [xAbove, xBellow, xLeft, xRight]
+}
+
+
+//colorfill
 function colorFill (e) {
     if (fill) {
         //get index of the clicked grid cell
         let ogIndex = Array.from(e.target.parentElement.children).indexOf(e.target);
         // console.log(ogIndex);
 
+        // create a list of items to color
+        let toFill = [ogIndex]
+
         gridItems = document.querySelectorAll('.grid-item');
         let gridItemsArray = Array.from(gridItems);
         // console.log(gridItemsArray.length);
 
         // create grid-like representation of grid items
-        gridItemsArray2D = toMatrix(gridItemsArray, gridSize);
-        console.log(gridItemsArray2D);
+        let gridItemsArray2D = toMatrix(gridItemsArray, gridSize);
+        // console.log(gridItemsArray2D);
+
+        // get index of clicked item in 2d array 
+        let gridX = Math.floor(ogIndex / gridSize);
+        let gridY = ogIndex % gridSize;
+        // console.log(gridX);
+        // console.log(gridY);
+
+        // console.log(getAdjacent2D(gridX, gridY));
+
+        console.log(getAdjacent1D(ogIndex, gridX, gridY));
+
+
 
 
         
-    
+     
         colorFillButton.classList.remove('btn-on');
         fill = false;
     }
