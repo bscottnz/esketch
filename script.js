@@ -188,7 +188,14 @@ function randomColor() {
 // slider
 function rangeSlider(value) {
     document.getElementById('range-value').textContent = value;
-    gridSize = value;
+    gridSize = parseInt(value);
+    deleteGrid()
+    createGrid()
+    listen()
+    reInit()
+}
+
+function reInit() {
     deleteGrid()
     createGrid()
     listen()
@@ -284,7 +291,7 @@ function getAdjacent1D (x, gridX, gridY) {
         xRight = [x + 1];
     }
     
-
+    // console.log(xAbove, xBellow, xLeft, xRight);
     return [xAbove, xBellow, xLeft, xRight]
 }
 
@@ -330,7 +337,7 @@ function colorFill (e) {
                 let toAdd = (getAdjacent1D(toCheck[j], gridX, gridY));
                 // console.log(toAdd);
                 for (let i = 0; i < toAdd.length; i++) {
-                    if (getAdjacent1D(toCheck[j][i], gridX, gridY)[i] != null) {
+                    if (toAdd[i] != null) {
                         if (!toFill.includes(toAdd[i][0])) {
                             // for some reason it was adding items above the top line
                             // and bellow the bottom line, i couldnt work it out so 
@@ -360,7 +367,7 @@ function colorFill (e) {
 
         }
         
-        console.log(toFill);
+        // console.log(toFill);
 
         for (let i=0; i < toFill.length; i++) {
             e.target.parentElement.children[toFill[i]].style.backgroundColor = ink;
