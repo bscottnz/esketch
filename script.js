@@ -1,5 +1,5 @@
 // number of rows / columns in grid
-let gridSize = 5;
+let gridSize = 24;
 
 const container = document.querySelector('.grid-container');
 
@@ -7,7 +7,7 @@ let bgColor = '#ffffff'
 container.style.backgroundColor = bgColor;
 
 //create new grid items to fill the grid
-function createGrid(grid_size) {
+function createGrid() {
 
     // having the grid with each item at 1fr would leave left over space at the end of the grid
     //  when there were lots of items, doing it this way seemed to fill in that extra space.
@@ -57,7 +57,7 @@ function createGrid(grid_size) {
     
 }
 
-createGrid(gridSize)
+createGrid()
 
 gridItems = document.querySelectorAll(".grid-item");
 
@@ -336,8 +336,13 @@ function colorFill (e) {
                             // added this if. It would also add string numbers if i changed
                             // the grid size with the slider 
                             if (toAdd[i][0] >= 0 && toAdd[i][0] < gridSize**2 && typeof toAdd[i][0] == "number") {
-                                toFill.push(toAdd[i][0]);
-                                addedItems.push(toAdd[i][0]);
+                                // only color in the surounding items if they are the same color as the selected item
+                                if (e.target.parentElement.children[toAdd[i][0]].style.backgroundColor == 
+                                    e.target.style.backgroundColor) {
+                                    toFill.push(toAdd[i][0]);
+                                    addedItems.push(toAdd[i][0]);
+                                }
+                                
                             }
                             
                         }
@@ -354,19 +359,14 @@ function colorFill (e) {
 
         }
         
-        
-
         console.log(toFill);
 
-        // for (let i = 0; i < 4; i++) {
-        //     if (getAdjacent1D(toCheck[j][i], gridX, gridY)[i] != null) {
-        //         toFill.push(getAdjacent1D(toCheck[j][i], gridX, gridY)[i][0]);
-        //         // addedToFill++;
-        //     }
-        // }
+        for (let i=0; i < toFill.length; i++) {
+            e.target.parentElement.children[toFill[i]].style.backgroundColor = ink;
 
+            e.target.parentElement.children[toFill[i]].setAttribute('data-inked', 'true');
 
-        
+        }
      
         colorFillButton.classList.remove('btn-on');
         fill = false;
