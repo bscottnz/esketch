@@ -247,20 +247,39 @@ function deleteGrid() {
     }
 }
 
+//fade grid
+function fadeGrid(item) {
+    // if the cell hasnt been coloured, set it to the background color (un marked cells are transperent)
+    if (item.style.backgroundColor == "" || item.style.backgroundColor == "transperent") {
+        item.style.backgroundColor == bgColor;
+    }
 
+    // attatch class to each item. this fades the color to the background color over 1.5 seconds
+    item.classList.add("clear-fade");
+}
 
-// clear grid
+// clear grid with a fade out
+let root = document.documentElement;
 const clearButton = document.querySelector('#clear-grid');
 function clearGrid() {
+    // sets the css background color to the js variable bgColor. this is so the fadeout class can be applied, and use its background color
+    root.style.setProperty("--bg-color", bgColor);
     gridItems = document.querySelectorAll(".grid-item");
     for (let i = 0; i < gridItems.length; i++) {
-        gridItems[i].style.backgroundColor = "";
-        gridItems[i].removeAttribute('data-inked');
-        gridItems[i].removeAttribute('data-shade');
-
+        fadeGrid(gridItems[i]);
     }
+    // set a timer so the fade has time to execute, then reset all the grid cells.
+    setTimeout(function(){ for (let i = 0; i < gridItems.length; i++) {
+                                gridItems[i].style.backgroundColor = "";
+                                gridItems[i].removeAttribute('data-inked');
+                                gridItems[i].removeAttribute('data-shade');
+                                gridItems[i].classList.remove('clear-fade');
+
+    }}, 1500);
+    container.style.backgroundColor = bgColor;
+    
     // turn off the button after a very short delay
-    setTimeout(function(){ clearButton.classList.remove('btn-on'); }, 50);
+    setTimeout(function(){ clearButton.classList.remove('btn-on'); }, 1300);
 }
 clearButton.addEventListener('click', clearGrid);
 
@@ -580,9 +599,10 @@ function listen() {
 
     bgColorPicker.addEventListener("input", e => {
         gridItems = document.querySelectorAll(".grid-item");
+        bgColor = e.target.value;
         for (let i = 0; i < gridItems.length; i++) {
             if (!gridItems[i].dataset.inked) {
-                bgColor = e.target.value;
+                
                 container.style.backgroundColor = bgColor;
                 
 

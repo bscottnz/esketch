@@ -4,9 +4,16 @@
     padding: 0;
 }
 
-/* :root {
+:root {
     --bg-color: #ffffff;
-} */
+}
+
+/* this is the class that is applied to the grid when it is cleared.
+after 1.5 seconds the class is removed */
+.clear-fade {
+    background-color: var(--bg-color) !important;
+    transition: background-color 1.5s ease; 
+}
 
 
 body {
