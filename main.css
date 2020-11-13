@@ -4,6 +4,10 @@
     padding: 0;
 }
 
+:root {
+    --bg-color: #ffffff;
+}
+
 
 body {
     background-color: rgb(132, 199, 243);
@@ -14,7 +18,7 @@ body {
     display: grid;
     height: 600px;
     width: 600px;
-    /* background-color: rgb(156, 156, 156); */
+    background-color: rgb(156, 156, 156);
     border: 1px solid rgb(156, 156, 156);
     margin-left: auto;
     margin-right: auto;
@@ -23,6 +27,20 @@ body {
 /* .toggle-grid {
     gap: 1px;
 } */
+
+input[type="color"] {
+    display: block;
+
+}
+
+button {
+    display: block;
+}
+
+
+
+
+
 
 .btn-on {
     background-color: rgb(153, 221, 85);
@@ -48,7 +66,7 @@ body {
 
 .slider-box {
     position: relative;
-    width: 450px;
+    width: 250px;
 }
 
 #range-value {
@@ -72,8 +90,12 @@ body {
     background: #fff;
 }
 
+.controls {
+    width: 300px;
+    background-color: rgb(134, 226, 165);
+}
 input[type="range"] {
-    width: 400px;
+    width: 200px;
     height: 2px;
     background: #111;
     appearance: none;

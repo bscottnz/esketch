@@ -259,6 +259,8 @@ function clearGrid() {
         gridItems[i].removeAttribute('data-shade');
 
     }
+    // turn off the button after a very short delay
+    setTimeout(function(){ clearButton.classList.remove('btn-on'); }, 50);
 }
 clearButton.addEventListener('click', clearGrid);
 
@@ -555,7 +557,18 @@ function listen() {
                     colorPicker.value = RGBToHex(ink);
                 }
                 dropper.classList.remove('btn-on');
-                grab = false;   
+                grab = false;
+                
+                // once color has been grabbed, turn off other buttons so you can draw with the new color without
+                // having to toggle the other button manually
+                rainbow = false;
+                rainbowButton.classList.remove('btn-on');
+                shading = false;
+                shaderButton.classList.remove('btn-on');
+                lighten = false;
+                lightenButton.classList.remove('btn-on');
+                eraser = false;
+                eraserButton.classList.remove('btn-on');
             }
         });
     }

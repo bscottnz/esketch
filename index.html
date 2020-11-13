@@ -7,26 +7,36 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div class="grid-container toggle-grid" draggable="false"></div>
-    <br>
-    <button id="grid-btn" class="btn-on">Toggle Grid</button>
-    <button id="eraser-btn">Toggle Eraser</button>
-    <button id="rainbow-btn">Toggle Rainbow</button>
-    <button id="shader-btn">Toggle Shading</button>
-    <button id="lighten-btn">Toggle Lighten</button>
-    <input type="color" id="color-select">
-    <button id="color-grabber">Colour Grabber</button>
-    <input type="color" id="bg-color-select" value="#ffffff">
-    
-    <div class="slider-box">
-        <input type="range" value="24" min="1" max="60" id="range-slider"
-        onmousemove="rangeSliderValue(this.value)" onChange="rangeSlider(this.value)">
-        <span id="range-value">24</span>
+    <div class="main">
+        <div class="grid-container toggle-grid" draggable="false"></div>
+        
+        <div class="controls">
+
+            <input type="color" id="color-select">
+            <input type="color" id="bg-color-select" value="#ffffff">
+            <button id="color-fill">Colour Fill</button>
+            <button id="color-grabber">Colour Grabber</button>
+            
+            <button id="eraser-btn">Toggle Eraser</button>
+            <button id="rainbow-btn">Toggle Rainbow</button>
+            <button id="shader-btn">Toggle Shading</button>
+            <button id="lighten-btn">Toggle Lighten</button>
+            
+            
+            
+            <button id="grid-btn" class="btn-on">Toggle Grid</button>
+            <button id="clear-grid">Clear</button>
+            <div class="slider-box">
+                <input type="range" value="24" min="1" max="60" id="range-slider"
+                onmousemove="rangeSliderValue(this.value)" onChange="rangeSlider(this.value)">
+                <span id="range-value">24</span>
+            </div>
+        
+            
+        
+            
+        </div>
     </div>
-
-    <button id="color-fill">Colour Fill</button>
-
-    <button id="clear-grid">Clear</button>
 
     <script src="script.js"></script>
 </body>
