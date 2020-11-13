@@ -4,9 +4,9 @@
     padding: 0;
 }
 
-:root {
+/* :root {
     --bg-color: #ffffff;
-}
+} */
 
 
 body {
@@ -18,7 +18,7 @@ body {
     display: grid;
     height: 600px;
     width: 600px;
-    background-color: rgb(156, 156, 156);
+    /* background-color: rgb(156, 156, 156); */
     border: 1px solid rgb(156, 156, 156);
     margin-left: auto;
     margin-right: auto;
