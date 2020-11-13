@@ -10,6 +10,7 @@ body {
 }
 
 .grid-container {
+    margin-top: 100px;
     display: grid;
     height: 600px;
     width: 600px;

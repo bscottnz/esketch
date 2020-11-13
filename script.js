@@ -95,6 +95,12 @@ shaderButton.addEventListener('click', () => {
         shading = false;
     } else {
         shading = true;
+        rainbow = false;
+        rainbowButton.classList.remove('btn-on');
+        lighten = false;
+        lightenButton.classList.remove('btn-on');
+        eraser = false;
+        eraserButton.classList.remove('btn-on');
     }
 });
 
@@ -106,6 +112,12 @@ lightenButton.addEventListener('click', () => {
         lighten = false; 
     } else {
         lighten = true;
+        shading = false;
+        shaderButton.classList.remove('btn-on');
+        rainbow = false;
+        rainbowButton.classList.remove('btn-on');
+        eraser = false;
+        eraserButton.classList.remove('btn-on');
     }
 });
 
@@ -165,6 +177,13 @@ eraserButton.addEventListener('click', () => {
         eraser = false;
     } else {
         eraser = true;
+        shading = false;
+        shaderButton.classList.remove('btn-on');
+        rainbow = false;
+        rainbowButton.classList.remove('btn-on');
+        lighten = false;
+        lightenButton.classList.remove('btn-on');
+        
     }
 });
 
@@ -176,6 +195,12 @@ rainbowButton.addEventListener('click', () => {
         rainbow = false;
     } else {
         rainbow = true;
+        shading = false;
+        shaderButton.classList.remove('btn-on');
+        lighten = false;
+        lightenButton.classList.remove('btn-on');
+        eraser = false;
+        eraserButton.classList.remove('btn-on');
     }
 });
 
@@ -193,6 +218,13 @@ function rangeSlider(value) {
     createGrid()
     listen()
     reInit()
+    // turn the grid button back on if it is off.
+    const gridButton = document.querySelector('#grid-btn');
+    if (gridButton.classList.contains("btn-on")) {
+        //pass
+    } else {
+        gridButton.classList.toggle('btn-on')
+    }
 }
 
 function reInit() {
