@@ -207,7 +207,9 @@ rainbowButton.addEventListener('click', () => {
 
 //create random colour generator
 function randomColor() {
-    return "#" + Math.floor(Math.random()*16777215).toString(16);
+    // return "#" + Math.floor(Math.random()*16777215).toString(16);
+    // this returns fewer colors but they are all nice and bright
+    return `hsl(${Math.random() * 360}, 100%, 50%)`;
 }
 
 // slider
@@ -423,7 +425,12 @@ function colorFill (e) {
         // console.log(toFill);
 
         for (let i=0; i < toFill.length; i++) {
-            e.target.parentElement.children[toFill[i]].style.backgroundColor = ink;
+            if (rainbow) {
+                e.target.parentElement.children[toFill[i]].style.backgroundColor = randomColor();
+            } else {
+                e.target.parentElement.children[toFill[i]].style.backgroundColor = ink;
+            }
+            
 
             e.target.parentElement.children[toFill[i]].setAttribute('data-inked', 'true');
 

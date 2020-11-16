@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -17,23 +19,40 @@ after 1.5 seconds the class is removed */
 
 
 body {
-    background-color: rgb(132, 199, 243);
+    background-color: #181818;
+}
+
+.grid-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 660px;
+    height: 660px;
+    background-color: #202020;
+    border-radius: 4px;
 }
 
 .grid-container {
-    margin-top: 100px;
+    /* box-sizing: content-box; */
     display: grid;
     height: 600px;
     width: 600px;
     /* background-color: rgb(156, 156, 156); */
     border: 1px solid rgb(156, 156, 156);
+    /* border-radius: 4px; */
+    /* margin-left: auto;
+    margin-right: auto; */
+}
+
+.wrapper {
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
 }
-
-/* .toggle-grid {
-    gap: 1px;
-} */
+.main {
+    display: flex;
+    justify-content: space-evenly;
+}
 
 input[type="color"] {
     display: block;
@@ -42,6 +61,15 @@ input[type="color"] {
 
 button {
     display: block;
+    color: rgb(62, 166, 255);
+    font-weight: 500;
+    font-family: roboto;
+    background-color: rgba(0,0,0,0);
+    font-size: 14px;
+    outline: none;
+    border: 1px solid rgb(62, 166, 255);
+    border-radius: 2px;
+    padding: 9px 15px;
 }
 
 
@@ -50,7 +78,8 @@ button {
 
 
 .btn-on {
-    background-color: rgb(153, 221, 85);
+    background-color: rgb(62, 166, 255);
+    color: #202020;
 }
 
 .grid-item {
@@ -99,12 +128,13 @@ button {
 
 .controls {
     width: 300px;
-    background-color: rgb(134, 226, 165);
+    background-color: #202020;
+    border-radius: 4px;
 }
 input[type="range"] {
     width: 200px;
     height: 2px;
-    background: #111;
+    background: #404040;
     appearance: none;
     outline: none;
     border-radius: 2px;
@@ -115,7 +145,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #00bcd4;
+    background: rgb(62, 166, 255);
 }
 
 
