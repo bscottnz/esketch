@@ -184,17 +184,12 @@ button {
 }
 
 #grid-btn {
-    margin-bottom: 35px ;
+    margin-bottom: 30px ;
 }
 
 #clear-grid {
     margin-bottom: 0px;
 }
-
-
-
-
-
 
 .btn-on {
     background-color: rgb(62, 166, 255);
