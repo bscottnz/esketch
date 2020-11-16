@@ -69,7 +69,7 @@ let ink = '#000000';
 
 //pen color picker
 const colorPicker = document.querySelector('#color-select')
-colorPicker.addEventListener("change", e => {
+colorPicker.addEventListener("input", e => {
     ink = e.target.value;
     if (grab) {
         grab = false;
