@@ -71,6 +71,12 @@ let ink = '#000000';
 const colorPicker = document.querySelector('#color-select')
 colorPicker.addEventListener("change", e => {
     ink = e.target.value;
+    if (grab) {
+        grab = false;
+        dropper.classList.remove('btn-on');
+    }
+    // fill = false;
+    // colorFillButton.classList.remove('btn-on');
 });
 
 // bg color picker
@@ -102,6 +108,10 @@ shaderButton.addEventListener('click', () => {
         eraser = false;
         eraserButton.classList.remove('btn-on');
     }
+    if (grab) {
+        grab = false;
+        dropper.classList.remove('btn-on');
+    }
 });
 
 // lighten toggle 
@@ -118,6 +128,10 @@ lightenButton.addEventListener('click', () => {
         rainbowButton.classList.remove('btn-on');
         eraser = false;
         eraserButton.classList.remove('btn-on');
+    }
+    if (grab) {
+        grab = false;
+        dropper.classList.remove('btn-on');
     }
 });
 
@@ -162,7 +176,17 @@ const dropper = document.querySelector("#color-grabber");
 let grab = false;
 dropper.addEventListener('click', () => {
     // when grab is true, all drawing is frozen until a color is selected
-    grab = true;   
+    if (grab) {
+        grab = false;
+        dropper.classList.remove('btn-on');
+    } else {
+        grab = true;
+    } 
+
+    if (fill) {
+        fill = false;
+        colorFillButton.classList.remove('btn-on');
+    }
 });
 
 
@@ -185,6 +209,11 @@ eraserButton.addEventListener('click', () => {
         lightenButton.classList.remove('btn-on');
         
     }
+
+    if (grab) {
+        grab = false;
+        dropper.classList.remove('btn-on');
+    }
 });
 
 // default rainbow ink to false and listen for toggle 
@@ -202,6 +231,11 @@ rainbowButton.addEventListener('click', () => {
         eraser = false;
         eraserButton.classList.remove('btn-on');
     }
+
+    if (grab) {
+        grab = false;
+        dropper.classList.remove('btn-on');
+    }
 });
 
 
@@ -213,8 +247,12 @@ function randomColor() {
 }
 
 // slider
+
+let progressBar = document.getElementById('progress-bar');
+
 function rangeSlider(value) {
     let gridLabels = document.querySelectorAll('#range-value');
+    progressBar.style.width = (value / 60 * 100) + "%";
     for (let i = 0; i < gridLabels.length; i++) {
         gridLabels[i].textContent = value;
     }
@@ -239,13 +277,20 @@ function reInit() {
     listen()
 }
 
+// let progressBar = document.getElementById('progress-bar');
+
 function rangeSliderValue(value) {
     let gridLabels = document.querySelectorAll('#range-value');
     for (let i = 0; i < gridLabels.length; i++) {
         gridLabels[i].textContent = value;
     }
+    progressBar.style.width = (value / 60 * 100) + "%";
+
+
     
 }
+
+
 
 function deleteGrid() {
     while (container.firstChild) {
@@ -264,7 +309,22 @@ function fadeGrid(item) {
     }
 
     // attatch class to each item. this fades the color to the background color over 1.5 seconds
-    item.classList.add("clear-fade");
+
+    // apply a random fadeout time to each item
+
+    let fadeSpeed = Math.random() * 10;
+    if (fadeSpeed > 8) {
+        item.classList.add("clear-fade");
+    } else if (fadeSpeed > 6) {
+        item.classList.add("clear-fade-2");
+    }  else if (fadeSpeed > 4) {
+        item.classList.add("clear-fade-3");
+    }  else if (fadeSpeed > 2) {
+        item.classList.add("clear-fade-4");
+    }  else {
+        item.classList.add("clear-fade-5");
+    }
+    
 }
 
 // clear grid with a fade out
@@ -283,6 +343,10 @@ function clearGrid() {
                                 gridItems[i].removeAttribute('data-inked');
                                 gridItems[i].removeAttribute('data-shade');
                                 gridItems[i].classList.remove('clear-fade');
+                                gridItems[i].classList.remove('clear-fade-2');
+                                gridItems[i].classList.remove('clear-fade-3');
+                                gridItems[i].classList.remove('clear-fade-4');
+                                gridItems[i].classList.remove('clear-fade-5');
 
     }}, 1500);
     container.style.backgroundColor = bgColor;
@@ -299,6 +363,10 @@ clearButton.addEventListener('click', clearGrid);
 const colorFillButton = document.querySelector('#color-fill');
 let fill = false;
 colorFillButton.addEventListener('click', () => {
+    if (grab) {
+        grab = false;
+        dropper.classList.remove('btn-on');
+    }
     if (fill) {
         fill = false;
     } else { 

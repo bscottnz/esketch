@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
+/* font from https://www.dafont.com/game-over.font */
+@font-face {
+    font-family: gameover;
+    src: url('game_over.woff') format('woff'),
+         url('game_over.ttf') format('ttf');
+  }
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,14 +19,49 @@
 
 /* this is the class that is applied to the grid when it is cleared.
 after 1.5 seconds the class is removed */
+
+/* multiple classes so that some pixels will fade faster than others */
 .clear-fade {
     background-color: var(--bg-color) !important;
     transition: background-color 1.5s ease; 
 }
 
+.clear-fade-2 {
+    background-color: var(--bg-color) !important;
+    transition: background-color 1.4s ease; 
+}
+
+.clear-fade-3 {
+    background-color: var(--bg-color) !important;
+    transition: background-color 1.3s ease; 
+}
+
+.clear-fade-4 {
+    background-color: var(--bg-color) !important;
+    transition: background-color 1.2s ease; 
+}
+
+.clear-fade-5 {
+    background-color: var(--bg-color) !important;
+    transition: background-color 1.1s ease; 
+}
+
+.clear-fade-6 {
+    background-color: var(--bg-color) !important;
+    transition: background-color 1.0s ease; 
+}
+
 
 body {
     background-color: #181818;
+}
+
+.header {
+    margin-top: 50px;
+    color: rgb(62, 166, 255);
+    font-size: 100px;
+    text-align: center;
+    font-family: gameover;
 }
 
 .grid-wrapper {
@@ -179,7 +221,7 @@ button {
 
 .slider-box {
     position: relative;
-    width: 250px;
+    width: 100%;
 }
 
 #range-value {
@@ -203,6 +245,10 @@ button {
     background: #fff;
 } */
 
+.main {
+    margin-top: 60px;
+}
+
 .controls {
     width: 300px;
     background-color: #202020;
@@ -210,7 +256,7 @@ button {
     padding: 30px;
 }
 input[type="range"] {
-    width: 97%;
+    width: 100%;
     height: 2px;
     background: #404040;
     appearance: none;
@@ -224,6 +270,16 @@ input[type="range"]::-webkit-slider-thumb {
     height: 20px;
     border-radius: 50%;
     background: rgb(62, 166, 255);
+}
+
+#progress-bar {
+    width: 40%;
+    height: 2px;
+    background-color: rgb(62, 166, 255);
+    border-radius: 2px;
+    position: absolute;
+    top: 12px;
+    left: 0;
 }
 
 
