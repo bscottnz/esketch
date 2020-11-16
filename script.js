@@ -214,7 +214,11 @@ function randomColor() {
 
 // slider
 function rangeSlider(value) {
-    document.getElementById('range-value').textContent = value;
+    let gridLabels = document.querySelectorAll('#range-value');
+    for (let i = 0; i < gridLabels.length; i++) {
+        gridLabels[i].textContent = value;
+    }
+    // document.querySelectorAll('#range-value').textContent = value;
     gridSize = parseInt(value);
     deleteGrid()
     createGrid()
@@ -236,7 +240,10 @@ function reInit() {
 }
 
 function rangeSliderValue(value) {
-    document.getElementById('range-value').textContent = value;
+    let gridLabels = document.querySelectorAll('#range-value');
+    for (let i = 0; i < gridLabels.length; i++) {
+        gridLabels[i].textContent = value;
+    }
     
 }
 
@@ -281,7 +288,7 @@ function clearGrid() {
     container.style.backgroundColor = bgColor;
     
     // turn off the button after a very short delay
-    setTimeout(function(){ clearButton.classList.remove('btn-on'); }, 1300);
+    setTimeout(function(){ clearButton.classList.remove('btn-on'); }, 1400);
 }
 clearButton.addEventListener('click', clearGrid);
 

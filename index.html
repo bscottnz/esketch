@@ -13,8 +13,18 @@
             
             <div class="controls">
     
-                <input type="color" id="color-select">
-                <input type="color" id="bg-color-select" value="#ffffff">
+                <div class="color-card">
+                    <div class="color-box">
+                        <input type="color" id="color-select">
+                    </div>
+                    <span>Pen Colour</span>
+                </div>
+                <div class="color-card cc2">
+                    <div class="color-box">
+                        <input type="color" id="bg-color-select" value="#ffffff">
+                    </div>
+                    <span>Background Colour</span>
+                </div>
                 <button id="color-fill">Colour Fill</button>
                 <button id="color-grabber">Colour Grabber</button>
                 
@@ -25,13 +35,18 @@
                 
                 
                 
-                <button id="grid-btn" class="btn-on">Toggle Grid</button>
-                <button id="clear-grid">Clear</button>
+                
                 <div class="slider-box">
                     <input type="range" value="24" min="1" max="60" id="range-slider"
                     onmousemove="rangeSliderValue(this.value)" onChange="rangeSlider(this.value)">
-                    <span id="range-value">24</span>
+                    
                 </div>
+
+                <p class="grid-size">Grid size: <span id="range-value">24</span> x <span id="range-value">24</span></p>
+
+                <button id="grid-btn" class="btn-on">Toggle Grid Lines</button>
+                <button id="clear-grid">Clear</button>
+
             </div>
             <div class="grid-wrapper">
                 <div class="grid-container toggle-grid" draggable="false"></div>

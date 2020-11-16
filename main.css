@@ -56,8 +56,50 @@ body {
 
 input[type="color"] {
     display: block;
+    outline: none;
+    border: none;
+    /* border: 1px solid rgb(62, 166, 255); */
+    background-color: rgba(0,0,0,0);
+    border-radius: 2px;
+    width: 200%;
+    /* padding: 4px 8px; */
+    height: 200%;
+    transform: translateX(-10px) translateY(-10px);
 
 }
+
+.color-box {
+    height: 36px;
+    overflow: hidden;
+    border-radius: 2px;
+    border: 1px solid rgb(62, 166, 255);
+    width: 35%;
+    margin-bottom: 10px;
+    
+    /* transform: translateY(-10px); */
+
+
+}
+
+.color-card {
+    font-family: roboto;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgb(62, 166, 255);
+    display: flex;
+    position: relative;
+    
+}
+
+.color-card span {
+    margin-left: 9px;
+    position: absolute;
+    top: 10px;
+    left: 88px;
+    
+}
+
+
 
 button {
     display: block;
@@ -70,6 +112,41 @@ button {
     border: 1px solid rgb(62, 166, 255);
     border-radius: 2px;
     padding: 9px 15px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.cc2 {
+    margin-bottom: 25px;
+}
+
+#color-grabber {
+    margin-bottom: 34px;
+}
+
+#lighten-btn {
+    margin-bottom: 31px;
+}
+
+.slider-box {
+    margin-bottom: 10px;
+}
+
+.grid-size {
+    font-family: roboto;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgb(62, 166, 255);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#grid-btn {
+    margin-bottom: 35px ;
+}
+
+#clear-grid {
+    margin-bottom: 0px;
 }
 
 
@@ -106,16 +183,16 @@ button {
 }
 
 #range-value {
-    position: absolute;
+    /* position: absolute;
     top: 2px;
     right: 0px;
     padding: 2px;
-    width: 40px;
-    background: #fff;
+    width: 40px; */
+    /* background: #fff; */
     text-align: center;
 }
 
-#range-value::before {
+/* #range-value::before {
     content: "";
     position: absolute;
     top: 50%;
@@ -124,15 +201,16 @@ button {
     width: 10px;
     height: 10px;
     background: #fff;
-}
+} */
 
 .controls {
     width: 300px;
     background-color: #202020;
     border-radius: 4px;
+    padding: 30px;
 }
 input[type="range"] {
-    width: 200px;
+    width: 97%;
     height: 2px;
     background: #404040;
     appearance: none;
