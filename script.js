@@ -30,7 +30,7 @@ function createGrid() {
     const square = document.createElement('div');
     square.classList.add('grid-item');
     square.setAttribute('draggable', 'false');
-    square.style.backgroundColor = 'transperent';
+    square.style.backgroundColor = bgColor;
     container.appendChild(square);
 
     //to avoid double borders, top and left borders are applied to every cell,
@@ -42,6 +42,9 @@ function createGrid() {
     //background color. now when i change the background color i am only changing the
     // one container and it is much faster.
     //set border top and left to every grid item
+
+    //! Pav: changed transparent color to bgColor to simplify grid traversal for color-fill
+
     square.classList.add('border-top-left');
   }
   //add a right border the the right most items
@@ -383,6 +386,8 @@ function toMatrix(arr, width) {
 
 //helper function to grab adjacent cells of a 2d grid stored as a 1d array
 // only return cells that do not cross over the edge of the grid
+
+/*
 function getAdjacent1D(x, gridX, gridY) {
   let xAbove = null;
   let xBellow = null;
@@ -409,88 +414,86 @@ function getAdjacent1D(x, gridX, gridY) {
   // console.log(xAbove, xBellow, xLeft, xRight);
   return [xAbove, xBellow, xLeft, xRight];
 }
+*/
+
+function hexToRGB(hex) {
+  let r = parseInt(hex[1] + hex[2], 16);
+  let g = parseInt(hex[3] + hex[4], 16);
+  let b = parseInt(hex[5] + hex[6], 16);
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function findNeighbors(matrix, x, y, oldColor, newColor) {
+  const possibleNeighbors = [
+    { cell: matrix?.[x]?.[y - 1], x: x, y: y - 1 }, // west
+    { cell: matrix?.[x]?.[y + 1], x: x, y: y + 1 }, // east
+    { cell: matrix?.[x - 1]?.[y], x: x - 1, y: y }, // north
+    { cell: matrix?.[x + 1]?.[y], x: x + 1, y: y }, // south
+  ];
+
+  const neighbors = [];
+
+  for (const neighbor of possibleNeighbors) {
+    if (
+      neighbor.cell !== undefined &&
+      neighbor.cell.style.backgroundColor === oldColor &&
+      neighbor.cell.style.backgroundColor !== newColor
+    ) {
+      neighbors.push(neighbor);
+    }
+  }
+
+  return neighbors;
+}
+
+function floodFill(image, x, y, oldColor, newColor) {
+  if (oldColor === newColor) return;
+
+  oldColor = hexToRGB(oldColor);
+  newColor = hexToRGB(newColor);
+
+  const toPaint = [{ x: x, y: y }]; // queue
+
+  while (toPaint.length > 0) {
+    const { x, y } = toPaint.shift();
+
+    const neighbors = findNeighbors(image, x, y, oldColor, newColor);
+
+    for (const { cell, x, y } of neighbors) {
+      toPaint.push({ x, y });
+      cell.style.backgroundColor = rainbow ? randomColor() : newColor;
+      cell.setAttribute('data-inked', 'true');
+    }
+  }
+}
 
 //colorfill
 function colorFill(e) {
   if (fill) {
     //get index of the clicked grid cell
-    let ogIndex = Array.from(e.target.parentElement.children).indexOf(e.target);
+    const ogIndex = Array.from(e.target.parentElement.children).indexOf(
+      e.target
+    );
     // console.log(ogIndex);
 
-    // create a list of items to color
-    let toFill = [ogIndex];
-    let addedToFill = 1;
-
     gridItems = document.querySelectorAll('.grid-item');
-    let gridItemsArray = Array.from(gridItems);
+    const gridItemsArray = Array.from(gridItems);
     // console.log(gridItemsArray.length);
 
     // create grid-like representation of grid items
-    let gridItemsArray2D = toMatrix(gridItemsArray, gridSize);
-    // console.log(gridItemsArray2D);
+    const gridItemsArray2D = toMatrix(gridItemsArray, gridSize);
 
     // get index of clicked item in 2d array
-    let gridX = Math.floor(ogIndex / gridSize);
-    let gridY = ogIndex % gridSize;
-    // console.log(gridX);
-    // console.log(gridY);
+    const gridX = Math.floor(ogIndex / gridSize);
+    const gridY = ogIndex % gridSize;
 
-    // console.log(getAdjacent2D(gridX, gridY));
+    const seed = gridItemsArray2D[gridX][gridY];
+    const oldInk = seed.style.backgroundColor
+      ? RGBToHex(seed.style.backgroundColor)
+      : bgColor;
 
-    // console.log(getAdjacent1D(ogIndex, gridX, gridY));
-
-    // toFill=[12, 13, 11, 17, 7, 2, 6, 8, 22, 16, 18, 10, 14];
-    while (addedToFill != 0) {
-      let toCheck = toFill.slice(-addedToFill);
-      // toCheck = [2, 6, 8, 22, 16, 18, 10, 14];
-      let addedItems = [];
-      // console.log(toCheck);
-      addedToFill = 0;
-      for (let j = 0; j < toCheck.length; j++) {
-        // console.log(toCheck[j]);
-        let toAdd = getAdjacent1D(toCheck[j], gridX, gridY);
-        // console.log(toAdd);
-        for (let i = 0; i < toAdd.length; i++) {
-          if (toAdd[i] != null) {
-            if (!toFill.includes(toAdd[i][0])) {
-              // for some reason it was adding items above the top line
-              // and bellow the bottom line, i couldnt work it out so
-              // added this if. It would also add string numbers if i changed
-              // the grid size with the slider
-              if (
-                toAdd[i][0] >= 0 &&
-                toAdd[i][0] < gridSize ** 2 &&
-                typeof toAdd[i][0] == 'number'
-              ) {
-                // only color in the surounding items if they are the same color as the selected item
-                if (
-                  e.target.parentElement.children[toAdd[i][0]].style.backgroundColor ==
-                  e.target.style.backgroundColor
-                ) {
-                  toFill.push(toAdd[i][0]);
-                  addedItems.push(toAdd[i][0]);
-                }
-              }
-            }
-          }
-        }
-      }
-      addedToFill = addedItems.length;
-      // console.log(addedItems.length);
-      // console.log(addedItems);
-    }
-
-    // console.log(toFill);
-
-    for (let i = 0; i < toFill.length; i++) {
-      if (rainbow) {
-        e.target.parentElement.children[toFill[i]].style.backgroundColor = randomColor();
-      } else {
-        e.target.parentElement.children[toFill[i]].style.backgroundColor = ink;
-      }
-
-      e.target.parentElement.children[toFill[i]].setAttribute('data-inked', 'true');
-    }
+    floodFill(gridItemsArray2D, gridX, gridY, oldInk, ink);
 
     colorFillButton.classList.remove('btn-on');
     fill = false;
